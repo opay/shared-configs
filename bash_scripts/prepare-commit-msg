@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# This script will detect task ID from your branch name and append it to every git commit message
+# i.e.
+#      branch name: TASK-123_Some_branch_name
+#      `git commit -m "Do something"`
+#      final message: TASK-123: Do something
+# 
+# To use this script run lower command in every project once:
+#
+# curl https://raw.githubusercontent.com/opay/shared-configs/master/bash_scripts/prepare-commit-ms g > .git/hooks/prepare-commit-msg && chmod u+x .git/hooks/prepare-commit-msg
+
+BRANCHES_TO_SKIP=(master main local staging dev development testing test prod production 0.x 1.x 2.x 3.x 4.x 5.x)
+
+BRANCH_NAME=$(git symbolic-ref --short HEAD)
+BRANCH_NAME="${BRANCH_NAME##*/}"
+BRANCH_NAME="${BRANCH_NAME//_/-}"
+
+IS_BRANCH_EXCLUDED=$(printf "%s\n" "${BRANCHES_TO_SKIP[@]}" | grep -c "^$BRANCH_NAME$")
+if [ $IS_BRANCH_EXCLUDED -eq 1 ]; then
+  exit;
+fi;
+
+IFS='-' read -r -a BRANCH_NAME_PART <<< "$BRANCH_NAME"
+if [ ${#BRANCH_NAME_PART[@]} -le 1 ] || [ ${#BRANCH_NAME_PART[0]} -ge 7 ] || ! [ -z "${BRANCH_NAME_PART[1]##[0-9]*}" ] || [ ${#BRANCH_NAME_PART[1]} -ge 7 ]; then
+  exit;
+fi;
+
+BRANCH_ID="${BRANCH_NAME_PART[0]}"-"${BRANCH_NAME_PART[1]}"
+if ! [ -n "$BRANCH_ID" ]; then
+  exit;
+fi;
+
+IS_BRANCH_ID_FOUND_IN_COMMIT_MSG=$(echo "$1" | grep -c "$BRANCH_ID")
+if [ $IS_BRANCH_ID_FOUND_IN_COMMIT_MSG -ge 1 ]; then
+  exit;
+fi
+
+sed -i.bak -e "1s/^/$BRANCH_ID: /" $1
