@@ -8,7 +8,7 @@
 # 
 # To use this script run lower command in every project once:
 #
-# curl https://raw.githubusercontent.com/opay/shared-configs/master/bash_scripts/prepare-commit-ms g > .git/hooks/prepare-commit-msg && chmod u+x .git/hooks/prepare-commit-msg
+# curl https://raw.githubusercontent.com/opay/shared-configs/master/bash_scripts/prepare-commit-msg > .git/hooks/prepare-commit-msg && chmod u+x .git/hooks/prepare-commit-msg
 
 BRANCHES_TO_SKIP=(master main local staging dev development testing test prod production 0.x 1.x 2.x 3.x 4.x 5.x)
 
