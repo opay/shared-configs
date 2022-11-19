@@ -71,13 +71,27 @@ jobs:
         with:
           node-version: 16
 
+      - name: Check package.json existence
+        id: check_npm_files
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "package.json"
+
       - name: Install js libraries
+        if: steps.check_npm_files.outputs.files_exists == 'true'
         run: |
           npm ci
           npm run build
+
+      - name: Check passport installer existence
+        id: check_passport_files
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "vendor/laravel/passport/src/Console/InstallCommand.php"
           
       - name: Prepare Oauth keys
-        run: php artisan passport:keys > /dev/null 2>&1
+        if: steps.check_passport_files.outputs.files_exists == 'true'
+        run: php artisan passport:keys
 
       - name: Create DB for tests
         run: touch ${{ inputs.database_path }}
