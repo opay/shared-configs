@@ -66,6 +66,19 @@ jobs:
       - name: Clear Config
         run: php artisan config:clear
 
+      - name: Setup NPM
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install js libraries
+        run: |
+          npm ci
+          npm run build
+          
+      - name: Prepare Oauth keys
+        run: php artisan passport:keys > /dev/null 2>&1
+
       - name: Create DB for tests
         run: touch ${{ inputs.database_path }}
 
