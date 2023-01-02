@@ -2,10 +2,9 @@ name: Pull Request
 on: [pull_request]
 jobs:
   tests:
-    uses: opay/shared-configs/.github/workflows/app_pull_request.yml@main
+    uses: opay/shared-configs/.github/workflows/app_testing.yml@main
     with:
-      load_script_path: PATH_TO_LOAD_SCRIPT
       config_path: PATH_TO_CONFIG_DIRECTORY
       database_path: PATH_TO_DATABASE
     secrets:
-      auth_secret: AUTH_SECRET
+      auth_json: AUTH_JSON_FILE_BODY
