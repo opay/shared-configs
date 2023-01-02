@@ -30,7 +30,7 @@ OPAY shared configurations
 ### Testing workflows
 1. Push workflow branch to GitHub
 2. Edit other project workflow to use shared workflow from new branch instead of `main`
-   - I.e. in [examples/pull_request_workflow.yml](examples/pull_request_workflow.yml) replace `uses: opay/shared-configs/.github/workflows/app_pull_request.yml@main` to `uses: opay/shared-configs/.github/workflows/app_pull_request.yml@NEW_BRANCH_NAME`
+   - I.e. in [examples/pull_request_workflow.yml](examples/pull_request_workflow.yml) replace `uses: opay/shared-configs/.github/workflows/app_testing.yml@main` to `uses: opay/shared-configs/.github/workflows/app_testing.yml@NEW_BRANCH_NAME`
 3. Create pull request with only required workflow update. Actions using shared workflow from development branch will be launched.
 4. If test fails, shared workflow can be updated, pushed to GH and test workflow re-run.
 5. When testing is finished, Pull Request created for workflow testing should be closed.
