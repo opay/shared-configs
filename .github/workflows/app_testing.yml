@@ -9,7 +9,7 @@ on:
         required: true
         type: string
     secrets:
-      auth_secret:
+      auth_json:
         required: true
 jobs:
   app_tests:
