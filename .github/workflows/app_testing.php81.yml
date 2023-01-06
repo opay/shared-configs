@@ -69,7 +69,7 @@ jobs:
         if: steps.check_npm_files.outputs.files_exists == 'true'
         run: |
           npm ci
-          npm run build
+          npm run build 2&> /dev/null
 
       - name: Check passport installer existence
         id: check_passport_files
