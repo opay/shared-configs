@@ -8,6 +8,10 @@ on:
       database_path:
         required: true
         type: string
+      run_npm:
+        description: Run NPM install and build
+        required: true
+        type: boolean
     secrets:
       auth_json:
         required: true
@@ -66,7 +70,7 @@ jobs:
           files: "package.json"
 
       - name: Install js libraries
-        if: steps.check_npm_files.outputs.files_exists == 'true'
+        if: steps.check_npm_files.outputs.files_exists == 'true' && ${{ inputs.run_npm }} == 'true'
         run: |
           npm ci > /dev/null 2>&1
           npm run build > /dev/null 2>&1
