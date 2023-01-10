@@ -68,8 +68,8 @@ jobs:
       - name: Install js libraries
         if: steps.check_npm_files.outputs.files_exists == 'true'
         run: |
-          npm ci
-          npm run build 2&> /dev/null
+          npm ci > /dev/null 2>&1
+          npm run build > /dev/null 2>&1
 
       - name: Check passport installer existence
         id: check_passport_files
