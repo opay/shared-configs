@@ -64,14 +64,13 @@ jobs:
           node-version: 16
 
       - name: Check package.json existence
-        if: inputs.run_npm != 'false'
         id: check_npm_files
         uses: andstor/file-existence-action@v2
         with:
           files: "package.json"
 
       - name: Install js libraries
-        if: steps.check_npm_files.outputs.files_exists == 'true'
+        if: inputs.run_npm == 'true' && steps.check_npm_files.outputs.files_exists == 'true'
         run: |
           npm ci > /dev/null 2>&1
           npm run build > /dev/null 2>&1
