@@ -37,7 +37,7 @@ jobs:
           coverage: none
 
       - name: Prepare env file
-        run: php -r "file_exists('.env') || copy('.build/.env.test', '.env');"
+        run: php -r "file_exists('.env') || copy('.github/.env.test', '.env');"
 
       - name: Add HTTP basic auth credentials
         run: echo '${{ secrets.auth_json }}' > $GITHUB_WORKSPACE/auth.json
